@@ -85,7 +85,7 @@ var zoo = {
       connection.query(query, inputType, function(err, results) {
         if (err) throw err;
         console.log(results);
-        currentScope.menu()
+        currentScope.menu();
       });
     });
   },
@@ -98,8 +98,8 @@ var zoo = {
       connection.query(query, inputType, function(err, results) {
         if (err) throw err;
         console.log(results);
-        currentScope.visit()
-      })
+        currentScope.visit();
+      });
     });
   },
   animId: function(input_scope) {
@@ -111,7 +111,7 @@ var zoo = {
       connection.query(query, inputType, function(err, results) {
         if (err) throw err;
         console.log(results);
-        currentScope.visit()
+        currentScope.visit();
       })
     });
   },
@@ -124,10 +124,44 @@ var zoo = {
       connection.query(query, inputType, function(err, results) {
         if (err) throw err;
         console.log(results);
-        currentScope.visit()
-
+        currentScope.visit();
+      })
+    });
+  },
+  all: function(input_scope) {
+    var currentScope = input_scope;
+    var query = 'SELECT COUNT(*) FROM animals'
+    connection.query(query, function(err, results) {
+      if (err) throw err;
+      console.log(results);
+      currentScope.visit();
+    });
+  },
+  update: function(input_scope) {
+    var currentScope = input_scope;
+    prompt.get(['id', 'new_name', 'new_age', 'new_type', 'new_caretaker_id'], function(err, results) {
+      var query = 'UPDATE animals SET name=?,type=?,caretaker_id=?,age=? WHERE id=?'
+      var inputType = [results.new_name, results.new_type, results.new_caretaker_id, results.new_age, results.id];
+      connection.query(query, inputType, function(err, results) {
+        if (err) throw err;
+        console.log(results);
+        currentScope.menu()
+        currentScope.promptUser()
+      });
+    });
+  },
+  adopt: function(input_scope) {
+    var currentScope = input_scope;
+    prompt.get(['animal_id'], function(err, results) {
+      var query = 'DELETE FROM animals WHERE id=?'
+      var inputType = results.animal_id;
+      connection.query(query, inputType, function(err, results) {
+        if (err) throw err;
+        console.log(results);
+        currentScope.menu()
+        currentScope.promptUser()
       })
     });
   }
 };
-zoo.name();
+zoo.adopt();
