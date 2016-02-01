@@ -35,7 +35,6 @@ var zoo = {
         if (err) throw err;
 
         console.log('Added ' + result.name + ' to the database!');
-        connection.end();
       });
     });
   },
@@ -86,6 +85,7 @@ var zoo = {
         if (err) throw err;
         console.log(results);
         currentScope.menu();
+        currentScope.promptUser();
       });
     });
   },
@@ -163,34 +163,41 @@ var zoo = {
       })
     });
   },
-  promptUser: function(){
+  promptUser: function() {
     var self = this;
-    prompt.get(['input'],function(err,results){
-      switch(results.input){
+    prompt.get(['input'], function(err, results) {
+      switch (results.input) {
         case "Q":
-        self.exit();
-        break;
+          self.exit();
+          break;
         case "A":
-        self.add(self);
-        break;
+          self.add(self);
+          break;
         case "V":
-        self.visit();
-        break;
+          self.visit();
+          break;
         case "D":
-        self.adopt(self);
-        break;
+          self.adopt(self);
+          break;
         case "U":
-        self.update(self);
-        break;
+          self.update(self);
+          break;
         default:
-        console.log("Sorry didnt get that");
+          console.log("Sorry didnt get that\n");
+          self.menu();
+          self.promptUser();
       };
     });
   },
-  exit: function(){
+  exit: function() {
     console.log("Thanks For Visiting us, Good Bye")
     connection.end();
     process.exit();
+  },
+  open: function() {
+    this.welcome()
+    this.menu()
+    this.promptUser()
   }
 };
-zoo.promptUser();
+zoo.open();
