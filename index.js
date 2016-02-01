@@ -162,6 +162,35 @@ var zoo = {
         currentScope.promptUser()
       })
     });
+  },
+  promptUser: function(){
+    var self = this;
+    prompt.get(['input'],function(err,results){
+      switch(results.input){
+        case "Q":
+        self.exit();
+        break;
+        case "A":
+        self.add(self);
+        break;
+        case "V":
+        self.visit();
+        break;
+        case "D":
+        self.adopt(self);
+        break;
+        case "U":
+        self.update(self);
+        break;
+        default:
+        console.log("Sorry didnt get that");
+      };
+    });
+  },
+  exit: function(){
+    console.log("Thanks For Visiting us, Good Bye")
+    connection.end();
+    process.exit();
   }
 };
-zoo.adopt();
+zoo.promptUser();
