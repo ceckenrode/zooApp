@@ -88,6 +88,46 @@ var zoo = {
         currentScope.menu()
       });
     });
+  },
+  care: function(input_scope) {
+    console.log("Enter City NY/SF")
+    var currentScope = input_scope;
+    prompt.get(['city_name'], function(err, results) {
+      var query = 'SELECT COUNT(*) FROM animals,caretakers WHERE caretakers.city=? AND caretakers.id=animals.caretaker_id'
+      var inputType = results.city_name;
+      connection.query(query, inputType, function(err, results) {
+        if (err) throw err;
+        console.log(results);
+        currentScope.visit()
+      })
+    });
+  },
+  animId: function(input_scope) {
+    var currentScope = input_scope;
+    console.log("Enter ID of Animal")
+    prompt.get(['animal_id'], function(err, results) {
+      var query = 'SELECT * FROM animals WHERE id=?'
+      var inputType = results.animal_id;
+      connection.query(query, inputType, function(err, results) {
+        if (err) throw err;
+        console.log(results);
+        currentScope.visit()
+      })
+    });
+  },
+  name: function(input_scope) {
+    var currentScope = input_scope;
+    console.log("Enter Name of Animal")
+    prompt.get(['animal_name'], function(err, results) {
+      var query = 'SELECT * FROM animals WHERE name=?'
+      var inputType = results.animal_name;
+      connection.query(query, inputType, function(err, results) {
+        if (err) throw err;
+        console.log(results);
+        currentScope.visit()
+
+      })
+    });
   }
 };
-zoo.type();
+zoo.name();
