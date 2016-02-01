@@ -200,4 +200,5 @@ var zoo = {
     this.promptUser()
   }
 };
+
 zoo.open();
