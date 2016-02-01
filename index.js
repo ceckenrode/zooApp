@@ -76,6 +76,18 @@ var zoo = {
           currentScope.view();
       }
     });
+  },
+  type: function(input_scope) {
+    var currentScope = input_scope;
+    prompt.get(["animal_type"], function(err, result) {
+      var query = 'SELECT COUNT(type) FROM animals WHERE type=?'
+      var inputType = result.animal_type;
+      connection.query(query, inputType, function(err, results) {
+        if (err) throw err;
+        console.log(results);
+        currentScope.menu()
+      });
+    });
   }
 };
-zoo.visit();
+zoo.type();
